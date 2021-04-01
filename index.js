@@ -4,17 +4,15 @@ const chalk = require("chalk");
 const { program } = require("commander");
 const morgan = require("morgan");
 const fetch = require("node-fetch");
+const debug = require("debug");
 
-const getLinea = () => {
-  const a = fetch(process.env.TMB_API_LINEAS)
-    .then(resp => resp.json())
-    .then(datos => datos.features.map(linea => ({
-      id: linea.properties.CODI_LINIA,
-      linea: linea.properties.NOM_LINIA,
-      descripcion: linea.properties.DESC_LINIA
-    })));
-  return console.log(a);
-};
+const getLinea = () => fetch(process.env.TMB_API_LINEAS)
+  .then(resp => resp.json())
+  .then(datos => datos.features.map(linea => ({
+    id: linea.properties.CODI_LINIA,
+    linea: linea.properties.NOM_LINIA,
+    descripcion: linea.properties.DESC_LINIA
+  })));
 
 program.option("-p, --puerto <puerto>", "Puerto para el servidor");
 program.parse(process.argv);
@@ -33,4 +31,20 @@ app.use(express.static("public"));
 
 app.get("/metro/lineas", (req, res, next) => {
   res.json(getLinea());
+});
+app.use((req, res, next) => {
+  res.status(404).json({ error: true, mensaje: "Recurso no encontrado" });
+});
+app.use((err, req, res, next) => {
+  debug(err);
+  res.status(500).send({ error: true, mensaje: "Error general" });
+});
+app.put("/:parametro?", (req, res, next) => {
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackerme" });
+});
+app.post("/:parametro?", (req, res, next) => {
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackerme" });
+});
+app.delete("/:parametro?", (req, res, next) => {
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackerme" });
 });
