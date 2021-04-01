@@ -58,11 +58,11 @@ app.use((err, req, res, next) => {
   res.status(500).send({ error: true, mensaje: "Error general" });
 });
 app.put("/:parametro?", (req, res, next) => {
-  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackerme" });
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
 });
 app.post("/:parametro?", (req, res, next) => {
-  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackerme" });
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
 });
 app.delete("/:parametro?", (req, res, next) => {
-  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackerme" });
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
 });
