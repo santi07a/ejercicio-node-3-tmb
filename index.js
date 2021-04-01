@@ -22,7 +22,7 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 
 app.get("/metro/lineas", (req, res, next) => {
-  const getLinea = () => fetch(process.env.TMB_API_LINEAS)
+  const getLineas = () => fetch(process.env.TMB_API_LINEAS)
     .then(resp => resp.json())
     .then(datos => res.json(
       datos.features.map(linea => ({
@@ -30,7 +30,24 @@ app.get("/metro/lineas", (req, res, next) => {
         linea: linea.properties.NOM_LINIA,
         descripcion: linea.properties.DESC_LINIA
       }))
-    )); getLinea();
+    )); getLineas();
+});
+
+app.get("/metro/linea/:numeroLinea", (req, res, next) => {
+  const { numeroLinea } = req.params;
+  if (numeroLinea) {
+    const getLinea = () => fetch(`${`${process.env.TMB_API_PARADAS}${numeroLinea.slice(1)}`}/estacions?${process.env.TMB_API_KEY}`)
+      .then(resp => resp.json())
+      .then(datos => res.json({
+        linea: datos.features[0].properties.NOM_LINIA,
+        descripcion: datos.features[0].properties.DESC_SERVEI,
+        paradas: datos.features.map(parada => [{
+          id: parada.properties.ID_ESTACIO,
+          nombre: parada.properties.NOM_ESTACIO
+        }])
+      }));
+    getLinea();
+  }
 });
 
 app.use((req, res, next) => {
