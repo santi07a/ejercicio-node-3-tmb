@@ -50,19 +50,20 @@ app.get("/metro/linea/:numeroLinea", (req, res, next) => {
   }
 });
 
-app.use((req, res, next) => {
-  res.status(404).json({ error: true, mensaje: "Recurso no encontrado" });
+app.put((req, res, next) => {
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
+});
+
+app.post((req, res, next) => {
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
+});
+app.delete((req, res, next) => {
+  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
 });
 app.use((err, req, res, next) => {
   debug(err);
-  res.status(500).send({ error: true, mensaje: "Error general" });
+  res.status(500).send({ error: true, mensaje: "Error General" });
 });
-app.put("/:parametro?", (req, res, next) => {
-  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
-});
-app.post("/:parametro?", (req, res, next) => {
-  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
-});
-app.delete("/:parametro?", (req, res, next) => {
-  res.status(403).json({ error: true, mensaje: "Te pensabas que podías hackearme" });
+app.get("*", (req, res, next) => {
+  res.status(404).json({ error: true, mensaje: "Recurso no encontrado" });
 });
